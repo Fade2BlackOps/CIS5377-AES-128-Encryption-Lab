@@ -86,7 +86,7 @@ def bytes_to_state(byte_array):
     """
     state = [[0] * 4 for _ in range(4)]
 
-    # TODO: bytes_to_state
+    # TODO: #1 bytes_to_state
     # Fill the 4x4 state matrix using the input byte array.
     # HINT: AES used column-major order, so the first 4 bytes go into the first column, etc.
 
@@ -98,7 +98,7 @@ def state_to_bytes(state):
     """
     output = []
 
-    # TODO: state_to_bytes
+    # TODO: #2 state_to_bytes
     # Read the state matrix column by column and return 16 bytes.
 
     return bytes(output)
