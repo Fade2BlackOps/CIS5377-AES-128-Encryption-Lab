@@ -155,6 +155,7 @@ def gmul(a, b):
     """
     Perform finite field multiplication of two bytes a and b.
     This is used in MixColumns, Step 4.
+    Ref: https://en.wikipedia.org/wiki/Finite_field_arithmetic
     """
 
     # TODO
