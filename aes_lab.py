@@ -111,7 +111,7 @@ def key_expansion(key_bytes):
     AES-128 requires 11 round keys total.
     """
 
-    # TODO: Step 0: Key Expansion
+    # TODO: #3 Step 0: Key Expansion
 
 # Step 1: AddRoundKey
 def add_round_key(state, round_key):
@@ -119,7 +119,7 @@ def add_round_key(state, round_key):
     XOR the current state with the round key.
     """
 
-    # TODO: Step 1: AddRoundKey
+    # TODO: #4 Step 1: AddRoundKey
 
 # Step 2: SubBytes
 def sub_bytes(state):
@@ -127,7 +127,7 @@ def sub_bytes(state):
     Replace each byte in the state using the AES S-box.
     """
 
-    # TODO: Step 2: SubBytes
+    # TODO: #5 Step 2: SubBytes
 
 # To do Step 3, we need to rotate an array of bytes.
 def rotate_word(word):
@@ -136,7 +136,7 @@ def rotate_word(word):
     Example: [a0, a1, a2, a3] -> [a1, a2, a3, a0]
     """
 
-    # TODO: rotate_word
+    # TODO: #6 rotate_word
 
 # Step 3: ShiftRows
 def shift_rows(state):
@@ -148,7 +148,7 @@ def shift_rows(state):
     Row 3: Shift left by 3
     """
 
-    # TODO: Step 3: ShiftRows
+    # TODO: #7 Step 3: ShiftRows
 
 # To do Step 4, we need to perform finite field multiplication, gmul.
 def gmul(a, b):
@@ -158,7 +158,7 @@ def gmul(a, b):
     Ref: https://en.wikipedia.org/wiki/Finite_field_arithmetic
     """
 
-    # TODO: gmul
+    # TODO: #8 gmul
 
 # Step 4: MixColumns
 def mix_columns(state):
@@ -166,7 +166,7 @@ def mix_columns(state):
     Mix each column of the state using AES finite field arithmetic.
     """
 
-    # TODO: Step 4: MixColumns
+    # TODO: #9 Step 4: MixColumns
 
 
 # Main AES Encryption Function
@@ -175,7 +175,7 @@ def aes_encrypt(plaintext_bytes, key_bytes):
     Encrypt a 16-byte block using AES-128.
     """
 
-    # TODO: aes_encrypt function
+    # TODO: #10 aes_encrypt function
 
 
 # Main Function:
