@@ -86,7 +86,7 @@ def bytes_to_state(byte_array):
     """
     state = [[0] * 4 for _ in range(4)]
 
-    # TODO:
+    # TODO: bytes_to_state
     # Fill the 4x4 state matrix using the input byte array.
     # HINT: AES used column-major order, so the first 4 bytes go into the first column, etc.
 
@@ -98,7 +98,7 @@ def state_to_bytes(state):
     """
     output = []
 
-    # TODO:
+    # TODO: state_to_bytes
     # Read the state matrix column by column and return 16 bytes.
 
     return bytes(output)
@@ -111,7 +111,7 @@ def key_expansion(key_bytes):
     AES-128 requires 11 round keys total.
     """
 
-    # TODO
+    # TODO: Step 0: Key Expansion
 
 # Step 1: AddRoundKey
 def add_round_key(state, round_key):
@@ -119,7 +119,7 @@ def add_round_key(state, round_key):
     XOR the current state with the round key.
     """
 
-    # TODO
+    # TODO: Step 1: AddRoundKey
 
 # Step 2: SubBytes
 def sub_bytes(state):
@@ -127,7 +127,7 @@ def sub_bytes(state):
     Replace each byte in the state using the AES S-box.
     """
 
-    # TODO
+    # TODO: Step 2: SubBytes
 
 # To do Step 3, we need to rotate an array of bytes.
 def rotate_word(word):
@@ -136,7 +136,7 @@ def rotate_word(word):
     Example: [a0, a1, a2, a3] -> [a1, a2, a3, a0]
     """
 
-    # TODO
+    # TODO: rotate_word
 
 # Step 3: ShiftRows
 def shift_rows(state):
@@ -148,7 +148,7 @@ def shift_rows(state):
     Row 3: Shift left by 3
     """
 
-    # TODO
+    # TODO: Step 3: ShiftRows
 
 # To do Step 4, we need to perform finite field multiplication, gmul.
 def gmul(a, b):
@@ -158,7 +158,7 @@ def gmul(a, b):
     Ref: https://en.wikipedia.org/wiki/Finite_field_arithmetic
     """
 
-    # TODO
+    # TODO: gmul
 
 # Step 4: MixColumns
 def mix_columns(state):
@@ -166,7 +166,7 @@ def mix_columns(state):
     Mix each column of the state using AES finite field arithmetic.
     """
 
-    # TODO
+    # TODO: Step 4: MixColumns
 
 
 # Main AES Encryption Function
@@ -175,7 +175,7 @@ def aes_encrypt(plaintext_bytes, key_bytes):
     Encrypt a 16-byte block using AES-128.
     """
 
-    # TODO
+    # TODO: aes_encrypt function
 
 
 # Main Function:
