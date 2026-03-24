@@ -201,8 +201,8 @@ def main():
     ciphertext = aes_encrypt(plaintext_bytes, key_bytes)
 
     # Print the ciphertext in hexadecimal format
-    print("Plaintext :", plaintext)
-    print("Key:", key)
+    print("Plaintext    :", plaintext)
+    print("Key          :", key)
     print("Ciphertext (hex):", ciphertext.hex())
 
 
