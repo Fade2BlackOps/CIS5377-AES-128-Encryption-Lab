@@ -108,9 +108,9 @@ def state_to_bytes(state):
     """
     byte_array = []
 
-    for col in range(4):
+    for column in range(4):
         for row in range(4):
-            byte_array.append(state[row][col])
+            byte_array.append(state[row][column])
 
     return bytes(byte_array)
 
