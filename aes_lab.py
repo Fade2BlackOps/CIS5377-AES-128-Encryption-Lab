@@ -86,7 +86,7 @@ def text_to_hex(text):
     """
     Convert a 16-character ASCII string into hexadecimal.
     """
-    return [hex(ord(c)) for c in text]
+    return [ord(c) for c in text]
 
 def hex_to_state(hex_array):
     """
@@ -100,18 +100,25 @@ def hex_to_state(hex_array):
         column = i // 4                     # Column index increments every 4 bytes
         state[row][column] = hex_array[i]   # Fill the state matrix in column-major order
 
+    # DEGUG: Print the type of an element to check if it's a string or an integer
+    print("Type of state[0][0]:", type(state[0][0]))
+
     return state
 
 def state_to_bytes(state):
     """
     Convert a 4x4 AES state matrix back into bytes.
     """
-    output = []
+    byte_array = []
+
+    for col in range(4):
+        for row in range(4):
+            byte_array.append(state[row][col])
 
     # TODO: #2 state_to_bytes
     # Read the state matrix column by column and return 16 bytes.
 
-    return bytes(output)
+    return bytes(byte_array)
 
 
 # Step 0: Key Expansion
@@ -217,6 +224,9 @@ def main():
 
     state = hex_to_state(text_to_hex(plaintext))
     print_matrix(state)
+    byte_array = state_to_bytes(state)
+    print("State as bytes:", byte_array)
+
 
 if __name__ == "__main__":
     main()
