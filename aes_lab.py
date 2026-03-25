@@ -77,9 +77,9 @@ def print_matrix(matrix):
     """
     Print a 4x4 matrix in a readable format.
     """
-    for row in matrix:
-        for item in row:
-            print(item, end=" ")        # Print item with a space, no default newline
+    for row in matrix:                  # For each row in the matrix,
+        for item in row:                # for each item in the row,
+            print(item, end=" ")        # Print the item with a spaced buffer
         print()                         # Print a newline character after each row
 
 def text_to_hex(text):
@@ -93,12 +93,12 @@ def hex_to_state(hex_array):
     Convert 16 bytes into a 4x4 AES state matrix.
     AES stores bytes column by column.
     """
-    state = [[0] * 4 for _ in range(4)] # Create an empty 4x4 matrix of 0's
+    state = [[0] * 4 for _ in range(4)]     # Create an empty 4x4 matrix of 0's
     
     for i in range(len(hex_array)):
-        row = i % 4                        # Row index cycles every 4 bytes
-        column = i // 4                       # Column index increments every 4 bytes
-        state[row][column] = hex_array[i]       # Fill the state matrix in column-major order
+        row = i % 4                         # Row index cycles every 4 bytes
+        column = i // 4                     # Column index increments every 4 bytes
+        state[row][column] = hex_array[i]   # Fill the state matrix in column-major order
 
     return state
 
