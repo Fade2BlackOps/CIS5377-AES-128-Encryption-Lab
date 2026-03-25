@@ -73,22 +73,32 @@ ROUND_CONSTANTS = [
 ## Functions:
 ## ---------------------------------------------------------------------------------------------------
 
-def text_to_bytes(text):
+def print_matrix(matrix):
     """
-    Convert a 16-character ASCII string into bytes.
+    Print a 4x4 matrix in a readable format.
     """
-    return text.encode('utf-8')
+    for row in matrix:
+        for item in row:
+            print(item, end=" ")        # Print item with a space, no default newline
+        print()                         # Print a newline character after each row
 
-def bytes_to_state(byte_array):
+def text_to_hex(text):
+    """
+    Convert a 16-character ASCII string into hexadecimal.
+    """
+    return [hex(ord(c)) for c in text]
+
+def hex_to_state(hex_array):
     """
     Convert 16 bytes into a 4x4 AES state matrix.
     AES stores bytes column by column.
     """
-    state = [[0] * 4 for _ in range(4)]
-
-    # TODO: #1 bytes_to_state
-    # Fill the 4x4 state matrix using the input byte array.
-    # HINT: AES used column-major order, so the first 4 bytes go into the first column, etc.
+    state = [[0] * 4 for _ in range(4)] # Create an empty 4x4 matrix of 0's
+    
+    for i in range(len(hex_array)):
+        row = i % 4                        # Row index cycles every 4 bytes
+        column = i // 4                       # Column index increments every 4 bytes
+        state[row][column] = hex_array[i]       # Fill the state matrix in column-major order
 
     return state
 
@@ -182,29 +192,31 @@ def aes_encrypt(plaintext_bytes, key_bytes):
 def main():
     # Get user input for plaintext and key
     plaintext = input("Enter 16-character plaintext: ")
-    key = input("Enter 16-character key: ")
+    # key = input("Enter 16-character key: ")
 
-    # Validate input lengths
-    if len(plaintext) != 16:
-        print("Error: Plaintext must be exactly 16 characters long.")
-        return
+    # # Validate input lengths
+    # if len(plaintext) != 16:
+    #     print("Error: Plaintext must be exactly 16 characters long.")
+    #     return
 
-    if len(key) != 16:
-        print("Error: Key must be exactly 16 characters long.")
-        return
+    # if len(key) != 16:
+    #     print("Error: Key must be exactly 16 characters long.")
+    #     return
 
-    # Convert inputs to bytes
-    plaintext_bytes = text_to_bytes(plaintext)
-    key_bytes = text_to_bytes(key)
+    # # Convert inputs to bytes
+    # plaintext_bytes = text_to_bytes(plaintext)
+    # key_bytes = text_to_bytes(key)
 
-    # Encrypt the plaintext
-    ciphertext = aes_encrypt(plaintext_bytes, key_bytes)
+    # # Encrypt the plaintext
+    # ciphertext = aes_encrypt(plaintext_bytes, key_bytes)
 
-    # Print the ciphertext in hexadecimal format
-    print("Plaintext    :", plaintext)
-    print("Key          :", key)
-    print("Ciphertext (hex):", ciphertext.hex())
+    # # Print the ciphertext in hexadecimal format
+    # print("Plaintext    :", plaintext)
+    # print("Key          :", key)
+    # print("Ciphertext (hex):", ciphertext.hex())
 
+    state = hex_to_state(text_to_hex(plaintext))
+    print_matrix(state)
 
 if __name__ == "__main__":
     main()
