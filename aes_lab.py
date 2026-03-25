@@ -82,26 +82,23 @@ def print_matrix(matrix):
             print(item, end=" ")        # Print the item with a spaced buffer
         print()                         # Print a newline character after each row
 
-def text_to_hex(text):
+def text_to_bytes(text):
     """
-    Convert a 16-character ASCII string into hexadecimal.
+    Convert a 16-character ASCII string into a list of bytes.
     """
-    return [ord(c) for c in text]
+    return text.encode('utf-8')             # Encode the string into bytes using UTF-8 encoding
 
-def hex_to_state(hex_array):
+def bytes_to_state(byte_array):
     """
     Convert 16 bytes into a 4x4 AES state matrix.
     AES stores bytes column by column.
     """
     state = [[0] * 4 for _ in range(4)]     # Create an empty 4x4 matrix of 0's
     
-    for i in range(len(hex_array)):
+    for i in range(len(byte_array)):
         row = i % 4                         # Row index cycles every 4 bytes
         column = i // 4                     # Column index increments every 4 bytes
-        state[row][column] = hex_array[i]   # Fill the state matrix in column-major order
-
-    # DEGUG: Print the type of an element to check if it's a string or an integer
-    print("Type of state[0][0]:", type(state[0][0]))
+        state[row][column] = byte_array[i]  # Fill the state matrix in column-major order
 
     return state
 
@@ -114,9 +111,6 @@ def state_to_bytes(state):
     for col in range(4):
         for row in range(4):
             byte_array.append(state[row][col])
-
-    # TODO: #2 state_to_bytes
-    # Read the state matrix column by column and return 16 bytes.
 
     return bytes(byte_array)
 
@@ -222,7 +216,7 @@ def main():
     # print("Key          :", key)
     # print("Ciphertext (hex):", ciphertext.hex())
 
-    state = hex_to_state(text_to_hex(plaintext))
+    state = bytes_to_state(text_to_bytes(plaintext))
     print_matrix(state)
     byte_array = state_to_bytes(state)
     print("State as bytes:", byte_array)
