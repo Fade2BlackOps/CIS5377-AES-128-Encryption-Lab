@@ -124,6 +124,14 @@ def key_expansion(key_bytes):
 
     # TODO: #3 Step 0: Key Expansion
 
+    # To do key expansion, we need to:
+    # 1. Take the 1st 4 bytes of the original key as the first round key
+    #    - So, the first column of the key.
+    # 2. Rotate the word (4 bytes) left by 1 byte (using rotate_word)
+    # 3. Substitute each byte in the rotated word using the S-box
+    
+    rotate_word(key_bytes)
+
 # Step 1: AddRoundKey
 def add_round_key(state, round_key):
     """
@@ -146,8 +154,13 @@ def rotate_word(word):
     Rotate a 4-byte word left by 1 byte.
     Example: [a0, a1, a2, a3] -> [a1, a2, a3, a0]
     """
+    temp = word[0]                      # Store the first byte in a temporary variable
+    for i in range(len(word) - 1):      # Shift the remaining bytes to the left
+        word[i] = word[i + 1]
+    word[-1] = temp                     # Place the first byte at the end of the word
 
-    # TODO: #6 rotate_word
+    return word
+
 
 # Step 3: ShiftRows
 def shift_rows(state):
