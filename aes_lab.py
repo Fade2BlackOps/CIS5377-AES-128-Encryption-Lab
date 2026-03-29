@@ -174,6 +174,12 @@ def shift_rows(state):
 
     # TODO: #7 Step 3: ShiftRows
 
+    for row in state:
+        for count in range(state.index(row)):
+            rotate_word(row)
+
+    return state
+
 # To do Step 4, we need to perform finite field multiplication, gmul.
 def gmul(a, b):
     """
