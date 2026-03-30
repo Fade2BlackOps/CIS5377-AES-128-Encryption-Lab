@@ -248,12 +248,24 @@ def main():
 
     state = bytes_to_state(text_to_bytes(plaintext))
     key_state = bytes_to_state(text_to_bytes(key))
+
     print("Initial State:")
     print_matrix(state)
-    print("Initial Key State:")
+
+    print("\nInitial Key State:")
     print_matrix(key_state)
-    byte_array = state_to_bytes(state)
-    print("State as bytes:", byte_array)
+
+    add_round_key(state, key_state)
+    print("\nAfter AddRoundKey:")
+    print_matrix(state)
+
+    sub_bytes(state)
+    print("\nAfter SubBytes:")
+    print_matrix(state)
+
+    shift_rows(state)
+    print("\nAfter ShiftRows:")
+    print_matrix(state)
 
 
 if __name__ == "__main__":
