@@ -150,18 +150,16 @@ def sub_bytes(state):
     """
     Replace each byte in the state using the AES S-box.
     """
+    for row in state:                                             # For each row in the state matrix,
+        for element in row:                                       # For each byte in the row,
+            element = state[row][element]                         # Get the byte value from the state
 
-    # TODO: #5 Step 2: SubBytes
+            high_nibble = element >> 4                            # Get the high nibble (first 4 bits)
+            low_nibble = element & 0x0F                           # Get the low nibble (last 4 bits)
 
-    for row in state:
-        for element in row:
-            # Get the high and low nibbles of the byte
-            high_nibble = element >> 4       # Get the high 4 bits (nibble)
-            low_nibble = element & 0x0F    # Get the low 4 bits (nibble)
-            # Substitute the byte using the S-box
-            substituted_byte = S_BOX[high_nibble][low_nibble]
-            # Update the state with the substituted byte
-            element = substituted_byte
+            state[row][element] = S_BOX[high_nibble][low_nibble]  # Substitute the byte using the S-box
+
+    return state
 
 
 # To do Step 3, we need to rotate an array of bytes.
