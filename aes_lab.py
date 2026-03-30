@@ -303,6 +303,10 @@ def main():
     print("\nAfter ShiftRows:")
     print_matrix(state)
 
+    mix_columns(state)
+    print("\nAfter MixColumns:")
+    print_matrix(state)
+
 
 if __name__ == "__main__":
     main()
