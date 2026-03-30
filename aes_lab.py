@@ -75,12 +75,12 @@ ROUND_CONSTANTS = [
 
 def print_matrix(matrix):
     """
-    Print a 4x4 matrix in a readable format.
+    Print a 4x4 matrix in a readable hexadecimal format.
     """
-    for row in matrix:                  # For each row in the matrix,
-        for item in row:                # for each item in the row,
-            print(item, end=" ")        # Print the item with a spaced buffer
-        print()                         # Print a newline character after each row
+    for row in matrix:                       # For each row in the matrix,
+        for item in row:                     # for each item in the row,
+            print(f"0x{item:02X}", end=" ")  # Print the item in hexadecimal format
+        print()                              # Print a newline character after each row
 
 def text_to_bytes(text):
     """
