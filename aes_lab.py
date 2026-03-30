@@ -121,6 +121,7 @@ def xor_words(word1, word2):
     """
     return [word1[i] ^ word2[i] for i in range(4)]  # XOR each byte of the two words together
 
+
 # Step 0: Key Expansion
 def key_expansion(key_bytes):
     """
