@@ -213,11 +213,6 @@ def gmul(a, b):
         
         b >>= 1                         # Shift b right by 1 to process the next bit
 
-    # DEBUG: Let's sanity check: test prints here...
-    print(hex(gmul(0x57, 0x13)))  # expected: 0xfe
-    print(hex(gmul(0x02, 0x53)))  # useful AES-style check
-    print(hex(gmul(0x03, 0x53)))  # useful AES-style check
-
     return product
 
 
@@ -302,6 +297,12 @@ def main():
     shift_rows(state)
     print("\nAfter ShiftRows:")
     print_matrix(state)
+
+    # DEBUG: Let's sanity check: test prints here...
+    print("\nTesting gmul function:")
+    print(hex(gmul(0x57, 0x13)))  # expected: 0xfe
+    print(hex(gmul(0x02, 0x53)))  # useful AES-style check
+    print(hex(gmul(0x03, 0x53)))  # useful AES-style check
 
     mix_columns(state)
     print("\nAfter MixColumns:")
