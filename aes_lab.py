@@ -327,18 +327,18 @@ def aes_encrypt(plaintext_bytes, key_bytes):
 
 # Main Function:
 def main():
-    # Get user input for plaintext and key
-    plaintext = input("Enter 16-character plaintext: ")
-    key = input("Enter 16-character key: ")
+    # Get user input for plaintext and key, ensuring they are exactly 16 characters long
+    while True:
+        plaintext = input("Enter 16-character plaintext: ")             # Prompt the user to enter the plaintext
+        if len(plaintext) == 16:                                        # Check if the plaintext is exactly 16 characters long
+            break                                                       # If it is, exit the loop
+        print("Error: Plaintext must be exactly 16 characters long.")   # If not, print an error message and prompt again
 
-    # Validate input lengths
-    if len(plaintext) != 16:
-        print("Error: Plaintext must be exactly 16 characters long.")
-        return
-
-    if len(key) != 16:
-        print("Error: Key must be exactly 16 characters long.")
-        return
+    while True:
+        key = input("Enter 16-character key: ")                         # Prompt the user to enter the key
+        if len(key) == 16:                                              # Check if the key is exactly 16 characters long
+            break                                                       # If it is, exit the loop
+        print("Error: Key must be exactly 16 characters long.")         # If not, print an error message and prompt again
 
     # Convert inputs to bytes
     plaintext_bytes = text_to_bytes(plaintext)
@@ -350,7 +350,7 @@ def main():
     # Print the ciphertext in hexadecimal format
     print("Plaintext    :", plaintext)
     print("Key          :", key)
-    print("Ciphertext (hex):", ciphertext.hex())
+    print("Ciphertext (hex):", ciphertext.hex().upper())
 
 
     # TEST MAIN PRINTS:
