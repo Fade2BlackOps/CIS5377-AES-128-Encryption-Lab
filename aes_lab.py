@@ -301,8 +301,8 @@ def main():
     # DEBUG: Let's sanity check: test prints here...
     print("\nTesting gmul function:")
     print(hex(gmul(0x57, 0x13)))  # expected: 0xfe
-    print(hex(gmul(0x02, 0x53)))  # useful AES-style check
-    print(hex(gmul(0x03, 0x53)))  # useful AES-style check
+    print(hex(gmul(0x02, 0x53)))  # expected: 0xa6
+    print(hex(gmul(0x03, 0x53)))  # expected: 0xf5
 
     mix_columns(state)
     print("\nAfter MixColumns:")
