@@ -226,8 +226,24 @@ def mix_columns(state):
     """
     Mix each column of the state using AES finite field arithmetic.
     """
+    for column in range(len(state[0])):     # For each column in the state matrix,
+        a0 = state[0][column]                   # Get the bytes of the current column
+        a1 = state[1][column]
+        a2 = state[2][column]
+        a3 = state[3][column]
 
-    # TODO: #9 Step 4: MixColumns
+        # Perform the MixColumns transformation using finite field multiplication
+        # Matrix for multiplication:
+        # | 02 03 01 01 |
+        # | 01 02 03 01 |
+        # | 01 01 02 03 |
+        # | 03 01 01 02 |
+        state[0][column] = gmul(0x02, a0) ^ gmul(0x03, a1) ^ a2 ^ a3    # (2·a0) XOR (3·a1) XOR a2 XOR a3
+        state[1][column] = a0 ^ gmul(0x02, a1) ^ gmul(0x03, a2) ^ a3    # a0 XOR (2·a1) XOR (3·a2) XOR a3
+        state[2][column] = a0 ^ a1 ^ gmul(0x02, a2) ^ gmul(0x03, a3)    # a0 XOR a1 XOR (2·a2) XOR (3·a3)
+        state[3][column] = gmul(0x03, a0) ^ a1 ^ a2 ^ gmul(0x02, a3)    # (3·a0) XOR a1 XOR a2 XOR (2·a3)
+
+    return state
 
 
 # Main AES Encryption Function
