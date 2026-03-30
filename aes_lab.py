@@ -340,13 +340,13 @@ def main():
 
     round_keys = key_expansion(text_to_bytes(key))
 
-    print("Round Key 0:")
+    print("\nRound Key 0:")
     print_matrix(round_keys[0])
 
     print("\nRound Key 1:")
     print_matrix(round_keys[1])
 
-    print("Initial State:")
+    print("\nInitial State:")
     print_matrix(state)
 
     print("\nInitial Key State:")
