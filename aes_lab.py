@@ -220,7 +220,7 @@ def aes_encrypt(plaintext_bytes, key_bytes):
 def main():
     # Get user input for plaintext and key
     plaintext = input("Enter 16-character plaintext: ")
-    # key = input("Enter 16-character key: ")
+    key = input("Enter 16-character key: ")
 
     # # Validate input lengths
     # if len(plaintext) != 16:
@@ -244,7 +244,11 @@ def main():
     # print("Ciphertext (hex):", ciphertext.hex())
 
     state = bytes_to_state(text_to_bytes(plaintext))
+    key_state = bytes_to_state(text_to_bytes(key))
+    print("Initial State:")
     print_matrix(state)
+    print("Initial Key State:")
+    print_matrix(key_state)
     byte_array = state_to_bytes(state)
     print("State as bytes:", byte_array)
 
