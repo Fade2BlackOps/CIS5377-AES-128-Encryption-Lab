@@ -338,6 +338,14 @@ def main():
     state = bytes_to_state(text_to_bytes(plaintext))
     key_state = bytes_to_state(text_to_bytes(key))
 
+    round_keys = key_expansion(text_to_bytes(key))
+
+    print("Round Key 0:")
+    print_matrix(round_keys[0])
+
+    print("\nRound Key 1:")
+    print_matrix(round_keys[1])
+
     print("Initial State:")
     print_matrix(state)
 
