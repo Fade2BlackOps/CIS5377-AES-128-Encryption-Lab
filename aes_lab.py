@@ -114,6 +114,12 @@ def state_to_bytes(state):
 
     return bytes(byte_array)
 
+def xor_words(word1, word2):
+    """
+    XOR two 4-byte words together and return the result as a new word.
+    This is used in key expansion.
+    """
+    return [word1[i] ^ word2[i] for i in range(4)]  # XOR each byte of the two words together
 
 # Step 0: Key Expansion
 def key_expansion(key_bytes):
