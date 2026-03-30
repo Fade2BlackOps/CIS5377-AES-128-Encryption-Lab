@@ -347,6 +347,7 @@ def main():
     # Encrypt the plaintext
     ciphertext = aes_encrypt(plaintext_bytes, key_bytes)
 
+    # TODO: Line these up with tabs \t like in the lab doc
     # Print the ciphertext in hexadecimal format
     print("Plaintext    :", plaintext)
     print("Key          :", key)
