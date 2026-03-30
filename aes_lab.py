@@ -138,8 +138,12 @@ def add_round_key(state, round_key):
     """
     XOR the current state with the round key.
     """
+    for row in range(len(state)):                         # For each row in the state matrix,
+        for column in range(len(state[row])):             # For each column in the row,
+            state[row][column] ^= round_key[row][column]  # XOR the state byte with the corresponding round key byte
 
-    # TODO: #4 Step 1: AddRoundKey
+    return state
+
 
 # Step 2: SubBytes
 def sub_bytes(state):
@@ -158,6 +162,7 @@ def sub_bytes(state):
             substituted_byte = S_BOX[high_nibble][low_nibble]
             # Update the state with the substituted byte
             element = substituted_byte
+
 
 # To do Step 3, we need to rotate an array of bytes.
 def rotate_word(word):
