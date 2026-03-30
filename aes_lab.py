@@ -127,6 +127,19 @@ def key_expansion(key_bytes):
     """
     Expand the original 16-byte key into 11 round keys.
     AES-128 requires 11 round keys total.
+
+    Structure:
+    1. Split original 16 bytes into 4 words
+    2. While fewer than 44 words:
+          temp = copy of previous word
+          if word index % 4 == 0:
+              temp = rotate_word(temp)
+              temp = sub_word(temp)
+              temp[0] ^= ROUND_CONSTANTS[round_number]
+          new_word = xor_words(words[i-4], temp)
+          append new_word
+    3. Group every 4 words into one 4x4 round-key matrix
+    4. Return list of 11 round-key matrices
     """
 
     # TODO: #3 Step 0: Key Expansion
