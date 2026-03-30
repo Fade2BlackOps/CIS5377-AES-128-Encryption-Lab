@@ -145,6 +145,22 @@ def add_round_key(state, round_key):
     return state
 
 
+# We need a function to perform S-box substitution on 1 word (4 bytes) for key expansion.
+def sub_word(word):
+    """
+    Substitute each byte in a 4-byte word using the AES S-box.
+    """
+    new_word = []                                       # Create a new list to hold the substituted bytes
+
+    for byte in word:                                   # For each byte in the word,
+        high_nibble = byte >> 4                             # Get the high nibble (first 4 bits)
+        low_nibble = byte & 0x0F                            # Get the low nibble (last 4 bits)
+
+        new_word.append(S_BOX[high_nibble][low_nibble])     # Substitute the byte using the S-box
+
+    return new_word
+
+
 # Step 2: SubBytes
 def sub_bytes(state):
     """
