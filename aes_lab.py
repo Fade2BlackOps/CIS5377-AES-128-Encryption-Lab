@@ -304,8 +304,25 @@ def aes_encrypt(plaintext_bytes, key_bytes):
     """
     Encrypt a 16-byte block using AES-128.
     """
+    state = bytes_to_state(plaintext_bytes)  # Convert plaintext bytes to state matrix
+    round_keys = key_expansion(key_bytes)    # Generate round keys from the original key
 
-    # TODO: #10 aes_encrypt function
+    # Initial round (Round 0)
+    add_round_key(state, round_keys[0])      # AddRoundKey with the first round key
+
+    # Rounds 1-9
+    for round_num in range(1, 10):
+        sub_bytes(state)                             # SubBytes
+        shift_rows(state)                            # ShiftRows
+        mix_columns(state)                           # MixColumns
+        add_round_key(state, round_keys[round_num])  # AddRoundKey with the current round key
+    
+    # Final round (Round 10, no MixColumns)
+    sub_bytes(state)                                 # SubBytes
+    shift_rows(state)                                # ShiftRows
+    add_round_key(state, round_keys[10])             # AddRoundKey with the final round key
+
+    return state_to_bytes(state)                     # Convert the final state matrix back to bytes
 
 
 # Main Function:
