@@ -150,12 +150,12 @@ def sub_bytes(state):
     """
     Replace each byte in the state using the AES S-box.
     """
-    for row in range(len(state)):                                 # For each row in the state matrix,
+    for row in range(len(state)):                                # For each row in the state matrix,
         for column in range(len(state[row])):                    # For each byte in the row,
             element = state[row][column]                         # Get the byte value from the state
 
-            high_nibble = element >> 4                            # Get the high nibble (first 4 bits)
-            low_nibble = element & 0x0F                           # Get the low nibble (last 4 bits)
+            high_nibble = element >> 4                           # Get the high nibble (first 4 bits)
+            low_nibble = element & 0x0F                          # Get the low nibble (last 4 bits)
 
             state[row][column] = S_BOX[high_nibble][low_nibble]  # Substitute the byte using the S-box
 
@@ -191,6 +191,7 @@ def shift_rows(state):
 
     return state
 
+
 # To do Step 4, we need to perform finite field multiplication, gmul.
 def gmul(a, b):
     """
@@ -198,8 +199,27 @@ def gmul(a, b):
     This is used in MixColumns, Step 4.
     Ref: https://en.wikipedia.org/wiki/Finite_field_arithmetic
     """
+    product = 0
 
-    # TODO: #8 gmul
+    for _ in range(8):              # For each bit in b (up to 8 bits for a byte),
+        if b & 1:                       # If the least significant bit of b is 1,
+            product ^= a                # add a to the product (XOR in GF(2))
+
+        high_bit_set = a & 0x80         # Check if the high bit of a is set (if a >= 128)
+        a = (a << 1) & 0xFF             # Shift a left by 1 (multiply by x in GF(2))
+
+        if high_bit_set:                # If the high bit of a was set before the shift,
+            a ^= 0x1B                   # XOR a with the irreducible polynomial (0x1B) to reduce it
+        
+        b >>= 1                         # Shift b right by 1 to process the next bit
+
+    # DEBUG: Let's sanity check: test prints here...
+    print(hex(gmul(0x57, 0x13)))  # expected: 0xfe
+    print(hex(gmul(0x02, 0x53)))  # useful AES-style check
+    print(hex(gmul(0x03, 0x53)))  # useful AES-style check
+
+    return product
+
 
 # Step 4: MixColumns
 def mix_columns(state):
