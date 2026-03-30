@@ -149,6 +149,16 @@ def sub_bytes(state):
 
     # TODO: #5 Step 2: SubBytes
 
+    for row in state:
+        for element in row:
+            # Get the high and low nibbles of the byte
+            high_nibble = element >> 4       # Get the high 4 bits (nibble)
+            low_nibble = element & 0x0F    # Get the low 4 bits (nibble)
+            # Substitute the byte using the S-box
+            substituted_byte = S_BOX[high_nibble][low_nibble]
+            # Update the state with the substituted byte
+            element = substituted_byte
+
 # To do Step 3, we need to rotate an array of bytes.
 def rotate_word(word):
     """
