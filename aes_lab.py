@@ -331,65 +331,68 @@ def main():
     plaintext = input("Enter 16-character plaintext: ")
     key = input("Enter 16-character key: ")
 
-    # # Validate input lengths
-    # if len(plaintext) != 16:
-    #     print("Error: Plaintext must be exactly 16 characters long.")
-    #     return
+    # Validate input lengths
+    if len(plaintext) != 16:
+        print("Error: Plaintext must be exactly 16 characters long.")
+        return
 
-    # if len(key) != 16:
-    #     print("Error: Key must be exactly 16 characters long.")
-    #     return
+    if len(key) != 16:
+        print("Error: Key must be exactly 16 characters long.")
+        return
 
-    # # Convert inputs to bytes
-    # plaintext_bytes = text_to_bytes(plaintext)
-    # key_bytes = text_to_bytes(key)
+    # Convert inputs to bytes
+    plaintext_bytes = text_to_bytes(plaintext)
+    key_bytes = text_to_bytes(key)
 
-    # # Encrypt the plaintext
-    # ciphertext = aes_encrypt(plaintext_bytes, key_bytes)
+    # Encrypt the plaintext
+    ciphertext = aes_encrypt(plaintext_bytes, key_bytes)
 
-    # # Print the ciphertext in hexadecimal format
-    # print("Plaintext    :", plaintext)
-    # print("Key          :", key)
-    # print("Ciphertext (hex):", ciphertext.hex())
+    # Print the ciphertext in hexadecimal format
+    print("Plaintext    :", plaintext)
+    print("Key          :", key)
+    print("Ciphertext (hex):", ciphertext.hex())
 
-    state = bytes_to_state(text_to_bytes(plaintext))
-    key_state = bytes_to_state(text_to_bytes(key))
 
-    round_keys = key_expansion(text_to_bytes(key))
+    # TEST MAIN PRINTS:
+    # -------------------------------------------------------------------------------
+    # state = bytes_to_state(text_to_bytes(plaintext))
+    # key_state = bytes_to_state(text_to_bytes(key))
 
-    print("\nRound Key 0:")
-    print_matrix(round_keys[0])
+    # round_keys = key_expansion(text_to_bytes(key))
 
-    print("\nRound Key 1:")
-    print_matrix(round_keys[1])
+    # print("\nRound Key 0:")
+    # print_matrix(round_keys[0])
 
-    print("\nInitial State:")
-    print_matrix(state)
+    # print("\nRound Key 1:")
+    # print_matrix(round_keys[1])
 
-    print("\nInitial Key State:")
-    print_matrix(key_state)
+    # print("\nInitial State:")
+    # print_matrix(state)
 
-    add_round_key(state, key_state)
-    print("\nAfter AddRoundKey:")
-    print_matrix(state)
+    # print("\nInitial Key State:")
+    # print_matrix(key_state)
 
-    sub_bytes(state)
-    print("\nAfter SubBytes:")
-    print_matrix(state)
+    # add_round_key(state, key_state)
+    # print("\nAfter AddRoundKey:")
+    # print_matrix(state)
 
-    shift_rows(state)
-    print("\nAfter ShiftRows:")
-    print_matrix(state)
+    # sub_bytes(state)
+    # print("\nAfter SubBytes:")
+    # print_matrix(state)
 
-    # DEBUG: Let's sanity check: test prints here...
-    print("\nTesting gmul function:")
-    print(hex(gmul(0x57, 0x13)))  # expected: 0xfe
-    print(hex(gmul(0x02, 0x53)))  # expected: 0xa6
-    print(hex(gmul(0x03, 0x53)))  # expected: 0xf5
+    # shift_rows(state)
+    # print("\nAfter ShiftRows:")
+    # print_matrix(state)
 
-    mix_columns(state)
-    print("\nAfter MixColumns:")
-    print_matrix(state)
+    # # DEBUG: Let's sanity check: test prints here...
+    # print("\nTesting gmul function:")
+    # print(hex(gmul(0x57, 0x13)))  # expected: 0xfe
+    # print(hex(gmul(0x02, 0x53)))  # expected: 0xa6
+    # print(hex(gmul(0x03, 0x53)))  # expected: 0xf5
+
+    # mix_columns(state)
+    # print("\nAfter MixColumns:")
+    # print_matrix(state)
 
 
 if __name__ == "__main__":
