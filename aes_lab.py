@@ -141,16 +141,38 @@ def key_expansion(key_bytes):
     3. Group every 4 words into one 4x4 round-key matrix
     4. Return list of 11 round-key matrices
     """
+    # Step 1: Split original 16-byte key into 4 words
+    words = []
+    for i in range(0, 16, 4):
+        words.append([key_bytes[i], key_bytes[i + 1], key_bytes[i + 2], key_bytes[i + 3]])
 
-    # TODO: #3 Step 0: Key Expansion
+    # Step 2: Generate remaining words until we have 44 total
+    for i in range(4, 44):
+        temp = words[i - 1][:]   # copy previous word
 
-    # To do key expansion, we need to:
-    # 1. Take the 1st 4 bytes of the original key as the first round key
-    #    - So, the first column of the key.
-    # 2. Rotate the word (4 bytes) left by 1 byte (using rotate_word)
-    # 3. Substitute each byte in the rotated word using the S-box
-    
-    rotate_word(key_bytes)
+        if i % 4 == 0:
+            temp = rotate_word(temp)
+            temp = sub_word(temp)
+            temp[0] ^= ROUND_CONSTANTS[i // 4]
+
+        new_word = xor_words(words[i - 4], temp)
+        words.append(new_word)
+
+    # Step 3: Group words into 11 round-key matrices
+    round_keys = []
+
+    for round_index in range(11):
+        round_key = [[0] * 4 for _ in range(4)]
+
+        for column in range(4):
+            word = words[round_index * 4 + column]
+
+            for row in range(4):
+                round_key[row][column] = word[row]
+
+        round_keys.append(round_key)
+
+    return round_keys
 
 
 # Step 1: AddRoundKey
