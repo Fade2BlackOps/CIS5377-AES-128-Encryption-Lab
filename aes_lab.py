@@ -132,6 +132,7 @@ def key_expansion(key_bytes):
     
     rotate_word(key_bytes)
 
+
 # Step 1: AddRoundKey
 def add_round_key(state, round_key):
     """
@@ -171,12 +172,9 @@ def shift_rows(state):
     Row 2: Shift left by 2
     Row 3: Shift left by 3
     """
-
-    # TODO: #7 Step 3: ShiftRows
-
-    for row in state:
-        for count in range(state.index(row)):
-            rotate_word(row)
+    for row in range(len(state)):           # For each row in the state matrix,
+        for _ in range(row):                # Shift the row left by its row index (0, 1, 2, or 3 times)
+            rotate_word(state[row])         # Rotate the row left by its row index
 
     return state
 
