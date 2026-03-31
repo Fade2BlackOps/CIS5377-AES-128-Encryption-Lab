@@ -133,19 +133,6 @@ def key_expansion(key_bytes):
     """
     Expand the original 16-byte key into 11 round keys.
     AES-128 requires 11 round keys total.
-
-    Structure:
-    1. Split original 16 bytes into 4 words
-    2. While fewer than 44 words:
-          temp = copy of previous word
-          if word index % 4 == 0:
-              temp = rotate_word(temp)
-              temp = sub_word(temp)
-              temp[0] ^= ROUND_CONSTANTS[round_number]
-          new_word = xor_words(words[i-4], temp)
-          append new_word
-    3. Group every 4 words into one 4x4 round-key matrix
-    4. Return list of 11 round-key matrices
     """
     # Step 1: Split original 16-byte key into 4 words
     words = []
@@ -332,10 +319,10 @@ def rotate_word_right(word):
     Rotate a 4-byte word right by 1 byte.
     Example: [a0, a1, a2, a3] -> [a3, a0, a1, a2]
     """
-    temp = word[-1]                     # Store the last byte in a temporary variable
-    for i in range(len(word) - 1, 0, -1):  # Shift the remaining bytes to the right
+    temp = word[-1]                                     # Store the last byte in a temporary variable
+    for i in range(len(word) - 1, 0, -1):               # Shift the remaining bytes to the right
         word[i] = word[i - 1]
-    word[0] = temp                      # Place the last byte at the beginning of the word
+    word[0] = temp                                      # Place the last byte at the beginning of the word
 
     return word
 
@@ -374,10 +361,10 @@ def inv_mix_columns(state):
         # | 09 0E 0B 0D |
         # | 0D 09 0E 0B |
         # | 0B 0D 09 0E |
-        state[0][column] = gmul(0x0E, a0) ^ gmul(0x0B, a1) ^ gmul(0x0D, a2) ^ gmul(0x09, a3)
-        state[1][column] = gmul(0x09, a0) ^ gmul(0x0E, a1) ^ gmul(0x0B, a2) ^ gmul(0x0D, a3)
-        state[2][column] = gmul(0x0D, a0) ^ gmul(0x09, a1) ^ gmul(0x0E, a2) ^ gmul(0x0B, a3)
-        state[3][column] = gmul(0x0B, a0) ^ gmul(0x0D, a1) ^ gmul(0x09, a2) ^ gmul(0x0E, a3)
+        state[0][column] = gmul(0x0E, a0) ^ gmul(0x0B, a1) ^ gmul(0x0D, a2) ^ gmul(0x09, a3)    # (0E·a0) XOR (0B·a1) XOR (0D·a2) XOR (09·a3)
+        state[1][column] = gmul(0x09, a0) ^ gmul(0x0E, a1) ^ gmul(0x0B, a2) ^ gmul(0x0D, a3)    # (09·a0) XOR (0E·a1) XOR (0B·a2) XOR (0D·a3)
+        state[2][column] = gmul(0x0D, a0) ^ gmul(0x09, a1) ^ gmul(0x0E, a2) ^ gmul(0x0B, a3)    # (0D·a0) XOR (09·a1) XOR (0E·a2) XOR (0B·a3)
+        state[3][column] = gmul(0x0B, a0) ^ gmul(0x0D, a1) ^ gmul(0x09, a2) ^ gmul(0x0E, a3)    # (0B·a0) XOR (0D·a1) XOR (09·a2) XOR (0E·a3)
 
     return state
 
@@ -389,11 +376,11 @@ def aes_encrypt(plaintext_bytes, key_bytes):
     """
     Encrypt a 16-byte block using AES-128.
     """
-    state = bytes_to_state(plaintext_bytes)  # Convert plaintext bytes to state matrix
-    round_keys = key_expansion(key_bytes)    # Generate round keys from the original key
+    state = bytes_to_state(plaintext_bytes)         # Convert plaintext bytes to state matrix
+    round_keys = key_expansion(key_bytes)           # Generate round keys from the original key
 
     # Initial round (Round 0)
-    add_round_key(state, round_keys[0])      # AddRoundKey with the first round key
+    add_round_key(state, round_keys[0])             # AddRoundKey with the first round key
 
     # Rounds 1-9
     for round_num in range(1, 10):
@@ -416,27 +403,27 @@ def aes_decrypt(ciphertext_bytes, key_bytes):
     """
     Decrypt a 16-byte block using AES-128.
     """
-    state = bytes_to_state(ciphertext_bytes)
-    round_keys = key_expansion(key_bytes)
+    state = bytes_to_state(ciphertext_bytes)        # Convert cyphertext bytes to state matrix
+    round_keys = key_expansion(key_bytes)           # Generate round keys from the original key
 
     # Start with the last round key
-    add_round_key(state, round_keys[10])
+    add_round_key(state, round_keys[10])            # AddRoundKey with the final round key
 
     # Undo the final encryption round
-    inv_shift_rows(state)
-    inv_sub_bytes(state)
+    inv_shift_rows(state)                           # InvShiftRows
+    inv_sub_bytes(state)                            # InvSubBytes
 
     # Undo rounds 9 down to 1
     for round_num in range(9, 0, -1):
-        add_round_key(state, round_keys[round_num])
-        inv_mix_columns(state)
-        inv_shift_rows(state)
-        inv_sub_bytes(state)
+        add_round_key(state, round_keys[round_num]) # AddRoundKey with the current round key
+        inv_mix_columns(state)                      # InvMixColumns
+        inv_shift_rows(state)                       # InvShiftRows
+        inv_sub_bytes(state)                        # InvSubBytes
 
     # Undo the initial AddRoundKey
-    add_round_key(state, round_keys[0])
+    add_round_key(state, round_keys[0])             # AddRoundKey with the first round key
 
-    return state_to_bytes(state)
+    return state_to_bytes(state)                    # Convert the final state matrix back to bytes
 
 
 # Main Function:
@@ -467,10 +454,10 @@ def main():
     print("Key       :\t", key)
     print("Ciphertext:\t", ciphertext.hex().upper())
 
-    # Optional Bonus: Decrypt the ciphertext and verify it matches the original plaintext
+    # Decrypt the ciphertext and verify it matches the original plaintext
     decrypted = aes_decrypt(ciphertext, key_bytes)
-    print("Decrypted :\t", decrypted.decode('utf-8'))  # Decode bytes back to string for display
-    print("Matches original:\t", decrypted.decode('utf-8') == plaintext)  # Verify that decryption matches the original plaintext
+    print("Decrypted :\t", decrypted.decode('utf-8'))                       # Decode bytes back to string for display
+    print("Matches original:\t", decrypted.decode('utf-8') == plaintext)    # Verify that decryption matches the original plaintext
 
 
     # TEST MAIN PRINTS:
