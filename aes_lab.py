@@ -356,6 +356,32 @@ def inv_shift_rows(state):
     return state
 
 
+# Step 3: InvMixColumns
+def inv_mix_columns(state):
+    """
+    Inverse mix each column of the state using AES finite field arithmetic.
+    This is used in the optional decryption bonus.
+    """
+    for column in range(len(state[0])):     # For each column in the state matrix,
+        a0 = state[0][column]                   # Get the bytes of the current column
+        a1 = state[1][column]
+        a2 = state[2][column]
+        a3 = state[3][column]
+
+        # Perform the InvMixColumns transformation using finite field multiplication
+        # Matrix for multiplication:
+        # | 0E 0B 0D 09 |
+        # | 09 0E 0B 0D |
+        # | 0D 09 0E 0B |
+        # | 0B 0D 09 0E |
+        state[0][column] = gmul(0x0E, a0) ^ gmul(0x0B, a1) ^ gmul(0x0D, a2) ^ gmul(0x09, a3)
+        state[1][column] = gmul(0x09, a0) ^ gmul(0x0E, a1) ^ gmul(0x0B, a2) ^ gmul(0x0D, a3)
+        state[2][column] = gmul(0x0D, a0) ^ gmul(0x09, a1) ^ gmul(0x0E, a2) ^ gmul(0x0B, a3)
+        state[3][column] = gmul(0x0B, a0) ^ gmul(0x0D, a1) ^ gmul(0x09, a2) ^ gmul(0x0E, a3)
+
+    return state
+
+
 
 # Main AES Encryption Function
 def aes_encrypt(plaintext_bytes, key_bytes):
