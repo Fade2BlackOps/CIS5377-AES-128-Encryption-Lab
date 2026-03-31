@@ -73,6 +73,9 @@ ROUND_CONSTANTS = [
 ## Functions:
 ## ---------------------------------------------------------------------------------------------------
 
+### Helper Functions:
+### ---------------------------------------------------------------------------------------------------
+
 def print_matrix(matrix):
     """
     Print a 4x4 matrix in a readable hexadecimal format.
@@ -122,6 +125,9 @@ def xor_words(word1, word2):
     return [word1[i] ^ word2[i] for i in range(4)]  # XOR each byte of the two words together
 
 
+### Encryption Functions:
+### ---------------------------------------------------------------------------------------------------
+
 # Step 0: Key Expansion
 def key_expansion(key_bytes):
     """
@@ -151,7 +157,7 @@ def key_expansion(key_bytes):
         temp = words[i - 1][:]   # copy previous word
 
         if i % 4 == 0:
-            temp = rotate_word(temp)
+            temp = rotate_word_left(temp)
             temp = sub_word(temp)
             temp[0] ^= ROUND_CONSTANTS[i // 4]
 
@@ -221,7 +227,7 @@ def sub_bytes(state):
 
 
 # To do Step 3, we need to rotate an array of bytes.
-def rotate_word(word):
+def rotate_word_left(word):
     """
     Rotate a 4-byte word left by 1 byte.
     Example: [a0, a1, a2, a3] -> [a1, a2, a3, a0]
@@ -245,7 +251,7 @@ def shift_rows(state):
     """
     for row in range(len(state)):           # For each row in the state matrix,
         for _ in range(row):                # Shift the row left by its row index (0, 1, 2, or 3 times)
-            rotate_word(state[row])         # Rotate the row left by its row index
+            rotate_word_left(state[row])         # Rotate the row left by its row index
 
     return state
 
@@ -297,6 +303,12 @@ def mix_columns(state):
         state[3][column] = gmul(0x03, a0) ^ a1 ^ a2 ^ gmul(0x02, a3)    # (3·a0) XOR a1 XOR a2 XOR (2·a3)
 
     return state
+
+
+### Decryption Functions:
+### ---------------------------------------------------------------------------------------------------
+
+
 
 
 # Main AES Encryption Function
