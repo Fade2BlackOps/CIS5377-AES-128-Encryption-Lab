@@ -308,6 +308,24 @@ def mix_columns(state):
 ### Decryption Functions:
 ### ---------------------------------------------------------------------------------------------------
 
+# Step 1: InvSubBytes
+def inv_sub_bytes(state):
+    """
+    Replace each byte in the state using the AES inverse S-box.
+    This is used in the optional decryption bonus.
+    """
+    for row in range(len(state)):                                # For each row in the state matrix,
+        for column in range(len(state[row])):                    # For each byte in the row,
+            element = state[row][column]                         # Get the byte value from the state
+
+            high_nibble = element >> 4                           # Get the high nibble (first 4 bits)
+            low_nibble = element & 0x0F                          # Get the low nibble (last 4 bits)
+
+            state[row][column] = INV_S_BOX[high_nibble][low_nibble]  # Substitute the byte using the inverse S-box
+
+    return state
+
+
 
 
 
