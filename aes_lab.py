@@ -410,7 +410,7 @@ def aes_encrypt(plaintext_bytes, key_bytes):
     return state_to_bytes(state)                     # Convert the final state matrix back to bytes
 
 
-# Main Decryption Function (Optional Bonus)
+# Main AES Decryption Function (Optional Bonus)
 # ----------------------------------------------------------------------------------------------------
 def aes_decrypt(ciphertext_bytes, key_bytes):
     """
@@ -466,6 +466,11 @@ def main():
     print("Plaintext :\t", plaintext)
     print("Key       :\t", key)
     print("Ciphertext:\t", ciphertext.hex().upper())
+
+    # Optional Bonus: Decrypt the ciphertext and verify it matches the original plaintext
+    decrypted = aes_decrypt(ciphertext, key_bytes)
+    print("Decrypted :\t", decrypted.decode('utf-8'))  # Decode bytes back to string for display
+    print("Matches original:\t", decrypted.decode('utf-8') == plaintext)  # Verify that decryption matches the original plaintext
 
 
     # TEST MAIN PRINTS:
