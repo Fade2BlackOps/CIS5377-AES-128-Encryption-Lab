@@ -308,7 +308,7 @@ def mix_columns(state):
 ### Decryption Functions:
 ### ---------------------------------------------------------------------------------------------------
 
-# Step 1: InvSubBytes
+# InvSubBytes
 def inv_sub_bytes(state):
     """
     Replace each byte in the state using the AES inverse S-box.
@@ -340,7 +340,7 @@ def rotate_word_right(word):
     return word
 
 
-# Step 2: InvShiftRows
+# InvShiftRows
 def inv_shift_rows(state):
     """
     Shift the rows of the state to the right by their row index.
@@ -356,7 +356,7 @@ def inv_shift_rows(state):
     return state
 
 
-# Step 3: InvMixColumns
+# InvMixColumns
 def inv_mix_columns(state):
     """
     Inverse mix each column of the state using AES finite field arithmetic.
