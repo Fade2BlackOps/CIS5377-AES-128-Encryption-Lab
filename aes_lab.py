@@ -326,6 +326,34 @@ def inv_sub_bytes(state):
     return state
 
 
+# We need a function to perform right rotation for InvShiftRows.
+def rotate_word_right(word):
+    """
+    Rotate a 4-byte word right by 1 byte.
+    Example: [a0, a1, a2, a3] -> [a3, a0, a1, a2]
+    """
+    temp = word[-1]                     # Store the last byte in a temporary variable
+    for i in range(len(word) - 1, 0, -1):  # Shift the remaining bytes to the right
+        word[i] = word[i - 1]
+    word[0] = temp                      # Place the last byte at the beginning of the word
+
+    return word
+
+
+# Step 2: InvShiftRows
+def inv_shift_rows(state):
+    """
+    Shift the rows of the state to the right by their row index.
+    Row 0: No shift
+    Row 1: Shift right by 1
+    Row 2: Shift right by 2
+    Row 3: Shift right by 3
+    """
+    for row in range(len(state)):           # For each row in the state matrix,
+        for _ in range(row):                # Shift the row right by its row index (0, 1, 2, or 3 times)
+            rotate_word_right(state[row])        # Rotate the row right by its row index
+
+    return state
 
 
 
