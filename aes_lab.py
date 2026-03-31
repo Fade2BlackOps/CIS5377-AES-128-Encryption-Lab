@@ -384,6 +384,7 @@ def inv_mix_columns(state):
 
 
 # Main AES Encryption Function
+# ----------------------------------------------------------------------------------------------------
 def aes_encrypt(plaintext_bytes, key_bytes):
     """
     Encrypt a 16-byte block using AES-128.
@@ -409,7 +410,37 @@ def aes_encrypt(plaintext_bytes, key_bytes):
     return state_to_bytes(state)                     # Convert the final state matrix back to bytes
 
 
+# Main Decryption Function (Optional Bonus)
+# ----------------------------------------------------------------------------------------------------
+def aes_decrypt(ciphertext_bytes, key_bytes):
+    """
+    Decrypt a 16-byte block using AES-128.
+    """
+    state = bytes_to_state(ciphertext_bytes)
+    round_keys = key_expansion(key_bytes)
+
+    # Start with the last round key
+    add_round_key(state, round_keys[10])
+
+    # Undo the final encryption round
+    inv_shift_rows(state)
+    inv_sub_bytes(state)
+
+    # Undo rounds 9 down to 1
+    for round_num in range(9, 0, -1):
+        add_round_key(state, round_keys[round_num])
+        inv_mix_columns(state)
+        inv_shift_rows(state)
+        inv_sub_bytes(state)
+
+    # Undo the initial AddRoundKey
+    add_round_key(state, round_keys[0])
+
+    return state_to_bytes(state)
+
+
 # Main Function:
+# ----------------------------------------------------------------------------------------------------
 def main():
     # Get user input for plaintext and key, ensuring they are exactly 16 characters long
     while True:
